@@ -197,6 +197,9 @@ public class LinkedList {
 	 */
 	public void remove(Node node) {
 		int index = indexOf(node.block);
+		if(node == null || index == -1)
+			throw new IllegalArgumentException(
+				"index must be between 0 and size");
 		if(first == node) {
 			first = first.next;
 			if (first == null) {  // If list becomes empty, update last
@@ -205,15 +208,12 @@ public class LinkedList {
 			size--;
 			return;
 		}
-
-		if (index != -1) {
 			getNode(index - 1).next = getNode(index).next;
 			size--;
 			if(node == last) { 
 				last = getNode(index - 1);
 				last.next = null;
 			}
-		}
 
 	}
 
