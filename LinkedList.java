@@ -196,10 +196,14 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
+		if (node == null) {
+			throw new IllegalArgumentException("Node cannot be null.");
+		}
+	
 		int index = indexOf(node.block);
-		if(node == null || index == -1)
-			throw new IllegalArgumentException(
-				"index must be between 0 and size");
+		if (index == -1) {
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
 		if(first == node) {
 			first = first.next;
 			if (first == null) {  // If list becomes empty, update last
