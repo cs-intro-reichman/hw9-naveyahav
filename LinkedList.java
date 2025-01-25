@@ -50,7 +50,7 @@ public class LinkedList {
 	 * @return the node at the given index
 	 */		
 	public Node getNode(int index) {
-		if (index < 0 || index > size) {
+		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
@@ -197,7 +197,7 @@ public class LinkedList {
 	 */
 	public void remove(Node node) {
 		if (node == null) {
-			throw new IllegalArgumentException("Node cannot be null.");
+			throw new NullPointerException("NullPointerException!");
 		}
 	
 		int index = indexOf(node.block);
@@ -230,8 +230,7 @@ public class LinkedList {
 	 */
 	public void remove(int index) {
 		if (index < 0 || index >= size) {
-			throw new IllegalArgumentException(
-					"index must be between 0 and size");
+			throw new IllegalArgumentException("IllegalArgumentException: index must be between 0 and size");
 		}
 		remove(getNode(index));
 	}
@@ -244,11 +243,17 @@ public class LinkedList {
 	 *         if the given memory block is not in this list
 	 */
 	public void remove(MemoryBlock block) {
-		int index = indexOf(block);
-		if(index!=-1) {
-			remove(index);
+		if (block == null) {
+			throw new IllegalArgumentException("IllegalArgumentException: index must be between 0 and size");
 		}
-	}	
+		int index = indexOf(block);
+		if (index == -1) {
+			throw new IllegalArgumentException("IllegalArgumentException: index must be between 0 and size");
+		}
+		
+		remove(index);
+		}
+	
 
 	/**
 	 * Returns an iterator over this list, starting with the first element.
