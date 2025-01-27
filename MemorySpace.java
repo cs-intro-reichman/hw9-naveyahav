@@ -7,6 +7,7 @@ public class MemorySpace {
 	
 	// A list of the memory blocks that are presently allocated
 	private LinkedList allocatedList;
+	private int sizealloc = 0;
 
 	// A list of memory blocks that are presently free
 	private LinkedList freeList;
@@ -46,7 +47,7 @@ public class MemorySpace {
 	 * address and length of the the found free block are 250 and 20, respectively.
 	 * In such a case, the base address and length of of the allocated block
 	 * are set to 250 and 17, respectively, and the base address and length
-	 * of the found free block are set to 267 and 3, respectively.
+	 * of the found free block are set to 27 and 36, respectively.
 	 * 
 	 * (4) The new memory block is returned.
 	 * 
@@ -58,9 +59,36 @@ public class MemorySpace {
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
 	public int malloc(int length) {		
-		//// Replace the following statement with your code
+		if(length <= 0) {
+			return -1;
+		}
+		ListIterator scan = freeList.iterator();
+		while(scan.hasNext()) {// if the size found, is exactly the same as requested
+			MemoryBlock x = scan.current.block;
+			if (x.length == length) {
+				allocatedList.add(sizealloc, x);
+				sizealloc ++;
+				freeList.remove(x);
+				return x.baseAddress;
+			}
+			scan.next();
+		}
+		scan = freeList.iterator();
+		while(scan.hasNext()) {// if the size exactly not found, looks for bigger block
+			MemoryBlock y = scan.current.block;
+			if (y.length >= length) {
+				MemoryBlock nb = new MemoryBlock(y.baseAddress, length); // creating the new block
+				allocatedList.add(sizealloc, nb);
+				sizealloc ++;
+				y.baseAddress = y.baseAddress + length;
+				y.length = y.length - length;
+				return nb.baseAddress;
+			}
+			scan.next();
+		}
 		return -1;
 	}
+
 
 	/**
 	 * Frees the memory block whose base address equals the given address.
