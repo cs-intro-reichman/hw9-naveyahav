@@ -66,23 +66,26 @@ public class MemorySpace {
 		while(scan.hasNext()) {// if the size found, is exactly the same as requested
 			MemoryBlock x = scan.current.block;
 			if (x.length == length) {
-				allocatedList.add(sizealloc, x);
-				sizealloc ++;
+				MemoryBlock allocatedBlock = new MemoryBlock(x.baseAddress, x.length);
+				allocatedList.addLast(allocatedBlock);
 				freeList.remove(x);
-				return x.baseAddress;
+				return allocatedBlock.baseAddress;
 			}
 			scan.next();
 		}
 		scan = freeList.iterator();
 		while(scan.hasNext()) {// if the size exactly not found, looks for bigger block
 			MemoryBlock y = scan.current.block;
-			if (y.length >= length) {
+			if (y.length > length) {
+				int temp = y.baseAddress;
 				MemoryBlock nb = new MemoryBlock(y.baseAddress, length); // creating the new block
-				allocatedList.add(sizealloc, nb);
-				sizealloc ++;
-				y.baseAddress = y.baseAddress + length;
-				y.length = y.length - length;
-				return nb.baseAddress;
+				allocatedList.addLast(nb);
+				y.baseAddress += length;
+				y.length -= length;
+				if (y.length == 0) {
+					freeList.remove(y);
+				}
+				return temp;
 			}
 			scan.next();
 		}
