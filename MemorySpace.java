@@ -26,6 +26,7 @@ public class MemorySpace {
 	    // zero, and its length is the given memory size.
 		freeList = new LinkedList();
 		freeList.addLast(new MemoryBlock(0, maxSize));
+		System.out.println("Free List Before malloc: " + freeList);
 	}
 
 	/**
@@ -102,7 +103,22 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//// Write your code here
+		if(address < 0) {
+			return;
+		}
+		else {
+			ListIterator scan = allocatedList.iterator();
+			while(scan.hasNext()) {
+				MemoryBlock x = scan.current.block;
+				if (x.baseAddress == address) {
+					freeList.addLast(x);
+					allocatedList.remove(x);
+					return;
+				}
+				scan.next();
+			}
+			
+		}
 	}
 	
 	/**
