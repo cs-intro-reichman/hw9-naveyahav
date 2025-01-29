@@ -106,6 +106,9 @@ public class MemorySpace {
 		if(address < 0) {
 			return;
 		}
+		if (freeList.getSize() == 0) {  // ✅ Check if freeList is empty
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
 		else {
 			ListIterator scan = allocatedList.iterator();
 			while(scan.hasNext()) {
