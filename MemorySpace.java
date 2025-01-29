@@ -142,7 +142,7 @@ public class MemorySpace {
 			return;  // No need to defragment if there's 0 or 1 free block
 		}
 	
-		boolean merged;  // Track if any merges happened
+		boolean merged;
 		do {
 			merged = false;
 			int i = 0;
@@ -153,12 +153,12 @@ public class MemorySpace {
 				// ✅ Merge adjacent blocks
 				if (current.baseAddress + current.length == next.baseAddress) {
 					current.length += next.length;  // Merge blocks
-					freeList.remove(i + 1);  // Remove merged block
+					freeList.remove(i + 1);  // ✅ Remove the next block
 					merged = true;  // ✅ Indicate a successful merge
 				} else {
 					i++;  // Move to the next block only if no merge happened
 				}
 			}
-		} while (merged);  
+		} while (merged);  // ✅ Repeat until no more merges happen 
 	}
 }
