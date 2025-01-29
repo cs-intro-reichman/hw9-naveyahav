@@ -66,7 +66,7 @@ public class MemorySpace {
 		while(scan.hasNext()) {// if the size found, is exactly the same as requested
 			MemoryBlock x = scan.current.block;
 			if (x.length == length) {
-				MemoryBlock allocatedBlock = new MemoryBlock(x.baseAddress, x.length);
+				MemoryBlock allocatedBlock = new MemoryBlock(x.baseAddress, length);
 				allocatedList.addLast(allocatedBlock);
 				freeList.remove(x);
 				return allocatedBlock.baseAddress;

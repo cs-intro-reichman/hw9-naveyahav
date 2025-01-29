@@ -266,12 +266,14 @@ public class LinkedList {
 	 * A textual representation of this list, for debugging.
 	 */
 	public String toString() {
-		ListIterator iterator = new ListIterator(first);
-		String res = "";
-		while(iterator.hasNext()) {
-			res += iterator.current.toString();
-			iterator.next();
+		String s = "";
+		Node current = first;
+		while (current != null) {
+		s = s + current.block + " ";
+		current = current.next;
 		}
-		return res;
+		return s;
+		
+		
 	}
 }
