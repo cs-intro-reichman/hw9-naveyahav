@@ -159,6 +159,6 @@ public class MemorySpace {
 					i++;  // Move to the next block only if no merge happened
 				}
 			}
-		} while (merged);  // ✅ Keep merging until no more merges are possible
+		} while (merged);  
 	}
 }
