@@ -138,27 +138,21 @@ public class MemorySpace {
 	 * In this implementation Malloc does not call defrag.
 	 */
 	public void defrag() {
-		if (freeList.getSize() <= 1) {  
-			return;  // No need to defragment if there's 0 or 1 free block
-		}
-	
-		boolean merged;
-		do {
-			merged = false;
-			int i = 0;
-			while (i < freeList.getSize() - 1) {
-				MemoryBlock current = freeList.getBlock(i);
-				MemoryBlock next = freeList.getBlock(i + 1);
-	
-				// ✅ Merge adjacent blocks
-				if (current.baseAddress + current.length == next.baseAddress) {
-					current.length += next.length;  // Merge blocks
-					freeList.remove(i + 1);  // ✅ Remove the next block
-					merged = true;  // ✅ Indicate a successful merge
-				} else {
-					i++;  // Move to the next block only if no merge happened
-				}
-			}
-		} while (merged);  // ✅ Keep looping until no more merges are possible
+		for (int i = 0; i < freeList.getSize(); i++) { 
+			MemoryBlock currentBlock = freeList.getBlock(i); 
+			int endAddress = currentBlock.baseAddress + currentBlock.length; 
+			Node iterator = freeList.getFirst(); 
+			
+			while (iterator != null) { 
+				MemoryBlock nextBlock = iterator.block; 
+				if (nextBlock.baseAddress == endAddress) { 
+					currentBlock.length += nextBlock.length; 
+					freeList.remove(iterator); 
+					defrag(); 
+					break; 
+				} 
+				iterator = iterator.next; 
+			} 
+		} 
 	}
 }
